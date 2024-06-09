@@ -45,8 +45,8 @@ class Author:
         sql = ''' 
            SELECT articles.* 
             FROM articles 
-            JOIN authors_articles ON articles.id = authors_articles.article_id 
-            WHERE authors_articles.author_id =?
+            JOIN authors ON article.author_id = author.id
+            WHERE author_id =?
         '''
         cursor.execute(sql, (self.id,))
         articles = cursor.fetchall()
@@ -60,9 +60,8 @@ class Author:
         sql = """
             SELECT magazines.* 
             FROM magazines 
-            JOIN articles ON magazines.id = articles.magazine_id 
-            JOIN authors_articles ON articles.id = authors_articles.article_id 
-            WHERE authors_articles.author_id =?
+            JOIN articles ON magazines.id = articles.magazine_id
+            WHERE articles.author_id = ?
         """
         cursor.execute(sql, (self._id,))
         magazines = cursor.fetchall()

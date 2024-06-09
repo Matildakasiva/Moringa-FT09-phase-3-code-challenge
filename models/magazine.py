@@ -58,6 +58,7 @@ class Magazine:
         sql = ''' 
             SELECT articles.* 
             FROM articles 
+            JOIN magazines ON article.magazine_id = magazine.id
             WHERE magazine_id = ?
         '''
         cursor.execute(sql, (self.id,))
@@ -71,8 +72,7 @@ class Magazine:
         sql = """
             SELECT authors.* 
             FROM authors 
-            JOIN authors_articles ON authors.id = authors_articles.author_id 
-            JOIN articles ON authors_articles.article_id = articles.id 
+            JOIN articles ON authors.id = articles.id
             WHERE articles.magazine_id = ?
         """
         cursor.execute(sql, (self._id,))
@@ -85,7 +85,8 @@ class Magazine:
         cursor = conn.cursor()
         sql = """
             SELECT title 
-            FROM articles 
+            FROM articles
+            JOIN articles on magazine.id = articles.id 
             WHERE magazine_id = ?
         """
         cursor.execute(sql, (self.id,))
@@ -98,15 +99,11 @@ class Magazine:
         cursor = conn.cursor()
         sql = """
             SELECT authors.* 
-            FROM authors 
-            JOIN (
-                SELECT author_id 
-                FROM authors_articles 
-                JOIN articles ON authors_articles.article_id = articles.id 
-                WHERE articles.magazine_id = ? 
-                GROUP BY author_id 
-                HAVING COUNT(*) > 2
-            ) AS contributing_authors ON authors.id = contributing_authors.author_id
+            FROM authors
+            JOIN articles ON authors_id = articles.authors.id
+            WHERE article.magazine_id =?
+            GROUP BY authors.id 
+            HAVING COUNT(DISTINCT article.id) > 2
         """
         cursor.execute(sql, (self.id,))
         authors = cursor.fetchall()
