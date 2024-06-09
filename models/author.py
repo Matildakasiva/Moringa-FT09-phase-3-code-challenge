@@ -1,7 +1,8 @@
-import sqlite3
+from database.connection import get_db_connection
 
 class Author:
     TABLE_NAME = 'authors'
+
     def __init__(self, id, name):
         self._id = id
         self._name = name
@@ -29,7 +30,7 @@ class Author:
 
 
     def new_author(self):
-        conn = sqlite3.connect('magazine.db')
+        conn = get_db_connection()
         cursor = conn.cursor() 
         sql = f"INSERT INTO {self.TABLE_NAME} (name) VALUES (?)"
         cursor.execute(sql, (self._name,))
@@ -39,7 +40,7 @@ class Author:
         
 
     def articles(self):
-        conn = sqlite3.connect('magazine.db')
+        conn = get_db_connection()
         cursor = conn.cursor()
         sql = ''' 
            SELECT articles.* 
@@ -54,7 +55,7 @@ class Author:
     
     
     def magazines(self):
-        conn = sqlite3.connect('magazine.db')
+        conn = get_db_connection()
         cursor = conn.cursor()
         sql = """
             SELECT magazines.* 
