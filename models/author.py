@@ -21,11 +21,11 @@ class Author:
     @name.setter
     def name(self, value):
         if hasattr(self, '_name'):
-            raise Exception("Should not be changed after the author is instantiated")
+            raise AttributeError("Should not be changed after the author is instantiated")
         if not isinstance(value, str):
-            raise Exception("The author name should be a type of string.")
+            raise TypeError("The author name should be a type of string.")
         if len(value) <= 0:
-            raise Exception("The author name must be longer than 0 characters")
+            raise ValueError("The author name must be longer than 0 characters")
         self._name = value
 
 

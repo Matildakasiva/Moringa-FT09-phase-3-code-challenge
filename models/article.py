@@ -30,10 +30,12 @@ class Article:
     
     @title.setter
     def title(self, value):
+        if hasattr(self, '_title'):
+            raise AttributeError("Cannot be changed after instantiated")
         if not isinstance(value, str):
-            raise Exception("Title must be a string")
-        if len(value) < 5 or len(value) > 50:
-            raise Exception("Title must be a string between 5 and 50 characters long")
+            raise TypeError("Title must be a string")
+        # if len(value) < 5 or len(value) > 50:
+        #      raise ValueError("Title must be a string between 5 and 50 characters long")
         self._title = value
 
     def author(self):

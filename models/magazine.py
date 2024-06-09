@@ -26,7 +26,7 @@ class Magazine:
     @name.setter
     def name(self, value):
         if not isinstance(value, str):
-            raise ValueError("The magazine name should be a string")
+            raise TypeError("The magazine name should be a string")
         if len(value) < 2 or len(value) > 16:
             raise ValueError("The magazine name should have characters between 2 and 16, inclusive")
         self._name = value
@@ -38,7 +38,7 @@ class Magazine:
     @category.setter
     def category(self, new_category):
         if not isinstance(new_category, str):
-            raise ValueError("The magazine category should be a string")
+            raise TypeError("The magazine category should be a string")
         if len(new_category) == 0:
             raise ValueError("The magazine category should have characters longer than 0, inclusive")
         self._category = new_category
